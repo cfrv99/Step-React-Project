@@ -4,10 +4,21 @@ import { Products } from './Products';
 import { Navi } from './Navi';
 import { Categories } from './Categories';
 import { useState,useEffect } from 'react';
+import { CreateModal } from './CreateModal';
 
 function App() {
   const [selectedCategory,setSelectedCategory] = useState({});
   const [products,setProducts] = useState([]);
+  const [showModal,setShowModal] = useState(false);
+  const [modalData,setModalData] = useState('');
+  const toggleModal=()=>{
+    setShowModal(!showModal);
+  }
+
+
+  const getModalData=(text)=>{
+    setModalData(text);
+  }
   const filterProductByCategory=(categoryId)=>{
     const response = [];
     console.log(categoryId);
@@ -35,7 +46,7 @@ function App() {
   return (
     <div className="App">
       <Container>
-      <h1>{selectedCategory.categoryName}</h1>
+      <h1>{modalData}</h1>
         <Navi/>
         <Row>
           <Col xs={3}>
@@ -48,6 +59,8 @@ function App() {
             <Products currentCategory = {selectedCategory} products = {products}/>
           </Col>
         </Row>
+        <button onClick={toggleModal}>Show Modal</button>
+        <CreateModal getModalData={getModalData} toggleModal = {toggleModal} modalShow= {showModal} />
       </Container>
     </div>
   );
